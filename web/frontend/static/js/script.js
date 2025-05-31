@@ -1,3 +1,5 @@
+import { loadSummary } from "./api.js";
+
 
 let uploadedFiles = [];
 let fileIdCounter = 0;
@@ -7,6 +9,7 @@ const fileInput = document.getElementById('fileInput');
 const fileItems = document.getElementById('fileItems');
 const fileCount = document.getElementById('fileCount');
 const emptyState = document.getElementById('emptyState');
+// const analysisButton = document.getElementById('analysisButton');
 
 // Drag and drop functionality
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -109,5 +112,21 @@ function updateFileList() {
     }
 }
 
+function analysisButton() {
+    const button = document.getElementById('analysisButton');
+    if (button) {
+      button.addEventListener('click', async () => { // ใส่ async ตรงนี้
+        console.log('okkk');
+        const text = document.getElementById('textresult');
+        const analysisResults = document.getElementById('analysisResults');
+        analysisResults.classList.remove('hidden');
+        await loadSummary();
+      });
+    }
+  }
+  
 // Initialize
 updateFileList();
+analysisButton();
+
+
