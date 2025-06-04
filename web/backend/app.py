@@ -1,16 +1,16 @@
-from flask import Flask, jsonify
+from flask import Flask
 from flask_cors import CORS
+from api.summary import summary_bp
 
-app = Flask(__name__)
-CORS(app)  # เปิดให้ frontend เรียกได้ข้าม origin
+def create_app():
+    app = Flask(__name__)
+    CORS(app)
 
-@app.route('/api/summary')
-def summary():
-    return jsonify({
-        "users": 321,
-        "sales": 654,
-        "growth": 8.7
-    })
+    app.register_blueprint(summary_bp)
+
+    return app
 
 if __name__ == '__main__':
-    app.run(debug=True,port=5001)
+    from config import PORT, DEBUG
+    app = create_app()
+    app.run(debug=DEBUG, port=PORT)

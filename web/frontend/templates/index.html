@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,63 +26,151 @@
         }
     </style>
 </head>
-<body class="font-sans bg-gray-50 h-screen overflow-hidden">
-    <div class="flex h-screen">
-        <div class="w-80 bg-white border-r border-gray-200 flex flex-col shadow-md">
-            <div class="p-6 border-b border-gray-200 bg-gradient-to-br from-indigo-500 to-purple-700 text-white">
-                <h1 class="text-xl font-semibold flex items-center gap-3">📁 File Manager</h1>
-            </div>
 
-            <div class="p-5">
-                <div id="dropZone" class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center transition-all cursor-pointer bg-gray-50 hover:border-blue-500 hover:bg-blue-50 hover:scale-105">
-                    <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">📤</div>
-                    <div class="text-gray-600 mb-2 font-medium">ลากไฟล์มาวางที่นี่</div>
-                    <div class="text-sm text-gray-500 mb-4">หรือ</div>
-                    <button onclick="document.getElementById('fileInput').click()" class="bg-gradient-to-br from-blue-500 to-blue-700 text-white py-3 px-6 rounded-lg font-medium inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all">➕ เลือกไฟล์</button>
-                    <input type="file" id="fileInput" class="hidden" multiple />
+<body class="font-sans bg-[#f9fafb]">
+    <div class="flex">
+        <div id="col1">
+            <div class="w-80 bg-white border-r border-gray-200 flex flex-col shadow-md">
+                <div class="p-6 border-b border-gray-200 bg-gradient-to-br from-indigo-500 to-purple-700 text-white">
+                    <h1 class="text-xl font-semibold flex items-center gap-3">📁 File Manager</h1>
                 </div>
-            </div>
-            
-            <div class="flex justify-center mt-3">
-                <button id="analysisButton" class="bg-gradient-to-br from-purple-500 to-blue-700 text-white py-2 px-4 rounded-lg font-medium inline-flex items-center gap-2 hover:-translate-y-1 hover:shadow-lg transition-all">Analysis</button>
-            </div>
 
-            <div id="fileList" class="flex-1 overflow-y-auto p-5">
-                <div class="flex justify-between items-center mb-4">
-                    <span class="font-semibold text-gray-800">ไฟล์ที่อัปโหลด</span>
-                    <span id="fileCount" class="bg-gray-200 text-gray-600 py-1 px-2 rounded-full text-xs">0</span>
+                <div class="p-5">
+                    <div id="dropZone"
+                        class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center transition-all cursor-pointer bg-gray-50 hover:border-blue-500 hover:bg-blue-50 hover:scale-105">
+                        <div
+                            class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                            📤</div>
+                        <div class="text-gray-600 mb-2 font-medium">ลากไฟล์มาวางที่นี่</div>
+                        <div class="text-sm text-gray-500 mb-4">หรือ</div>
+                        <button onclick="document.getElementById('fileInput').click()"
+                            class="bg-gradient-to-br from-blue-500 to-blue-700 text-white py-3 px-6 rounded-lg font-medium inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all">➕
+                            เลือกไฟล์</button>
+                        <input type="file" id="fileInput" class="hidden" multiple />
+                    </div>
                 </div>
-                <div id="emptyState" class="text-center py-10 px-5 text-gray-400">
-                    <div class="text-5xl mb-3">📂</div>
-                    <div>ยังไม่มีไฟล์</div>
-                </div>
-                <div id="fileItems"></div>
-            </div>
 
-            <div class="p-4 border-t border-gray-200 bg-gray-50 text-center text-xs text-gray-500">
-                <div class="footer-text">รองรับไฟล์ทุกประเภท</div>
+                <div class="flex justify-center mt-3">
+                    <button onclick="contentAnalysis()" id="analysisButton"
+                        class="bg-gradient-to-br from-purple-500 to-blue-700 text-white py-2 px-4 rounded-lg font-medium inline-flex items-center gap-2 hover:-translate-y-1 hover:shadow-lg transition-all">Analysis</button>
+                </div>
+
+                <div id="fileList" class="flex-1 overflow-y-auto p-5">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-semibold text-gray-800">ไฟล์ที่อัปโหลด</span>
+                        <span id="fileCount" class="bg-gray-200 text-gray-600 py-1 px-2 rounded-full text-xs">0</span>
+                    </div>
+                    <div id="emptyState" class="text-center py-10 px-5 text-gray-400">
+                        <div class="text-5xl mb-3">📂</div>
+                        <div>ยังไม่มีไฟล์</div>
+                    </div>
+                    <div id="fileItems"></div>
+                </div>
+
+                <div class="p-4 border-t border-gray-200 bg-gray-50 text-center text-xs text-gray-500">
+                    <div class="footer-text">รองรับไฟล์ทุกประเภท</div>
+                </div>
             </div>
         </div>
 
-        <div id="mainContent" class="flex-1 flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-700 text-white">
-            <div class="text-center max-w-lg">
-                <div class="w-30 h-30 bg-white bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6 text-5xl backdrop-blur-md">🗂️</div>
-                <h2 class="text-3xl font-bold mb-3">ยินดีต้อนรับสู่ File Manager</h2>
-                <p class="text-white text-opacity-80 leading-relaxed">
-                    ใช้ sidebar ทางซ้ายเพื่ออัปโหลดและจัดการไฟล์ของคุณ<br>
-                    สามารถลากไฟล์มาวางหรือคลิกเพื่อเลือกไฟล์ได้
-                </p>
+        <div id="col2" class="bg=[#f7f9fa] w-full h-screen">
+            <div id="mainContent"
+                class="hidden h-screen flex-1 flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-700 text-white">
+                <div class="text-center max-w-lg">
+                    <div
+                        class="w-30 h-30 bg-white bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-6 text-5xl backdrop-blur-md">
+                        🗂️</div>
+                    <h2 class="text-3xl font-bold mb-3">ยินดีต้อนรับสู่ File Manager</h2>
+                    <p class="text-white text-opacity-80 leading-relaxed">
+                        ใช้ sidebar ทางซ้ายเพื่ออัปโหลดและจัดการไฟล์ของคุณ<br>
+                        สามารถลากไฟล์มาวางหรือคลิกเพื่อเลือกไฟล์ได้
+                    </p>
+                </div>
+            </div>
+            <div id="contentAnalysis" class="">
+                <div id="Analysis_Actions" class="rounded-lg shadow-md p-6 m-10 bg-white">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Analysis Actions</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+
+                        <button onclick="handleAnalyze('inquiry')"
+                            class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                            <div class="w-8 h-8 text-blue-600 mb-2">💬</div>
+                            <span class="text-sm font-medium text-blue-900">Inquiry</span>
+                        </button>
+
+                        <button onclick="handleAnalyze('appointment')"
+                            class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                            <div class="w-8 h-8 text-green-600 mb-2">📅</div>
+                            <span class="text-sm font-medium text-green-900">Appointment</span>
+                        </button>
+
+                        <button onclick="handleAnalyze('feedback')"
+                            class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
+                            <div class="w-8 h-8 text-purple-600 mb-2">❤️</div>
+                            <span class="text-sm font-medium text-purple-900">Feedback</span>
+                        </button>
+
+                        <button onclick="handlePlotAll()"
+                            class="flex flex-col items-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors">
+                            <div class="w-8 h-8 text-orange-600 mb-2">📊</div>
+                            <span class="text-sm font-medium text-orange-900">Plot All</span>
+                        </button>
+
+                        <button onclick="handleAnalyze('topCenter')"
+                            class="flex flex-col items-center p-4 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
+                            <div class="w-8 h-8 text-red-600 mb-2">⭐</div>
+                            <span class="text-sm font-medium text-red-900">Top Center</span>
+                        </button>
+
+                        <button onclick="handleAnalyze('totalMonth')"
+                            class="flex flex-col items-center p-4 bg-teal-50 rounded-lg hover:bg-teal-100 transition-colors">
+                            <div class="w-8 h-8 text-teal-600 mb-2">📈</div>
+                            <span class="text-sm font-medium text-teal-900">Total Month</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pie & Bar -->
+                <div class="grid grid-cols-2 gap-8 m-10">
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Quarterly Performance</h3>
+                        <canvas id="performanceChart" height="300"></canvas>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Sales by Category</h3>
+                        <canvas id="categoryChart" height="300"></canvas>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div id="kpi-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6 ml-10 mr-10 mb-10">
+                    <!-- <div class="bg-white rounded-xl shadow-lg p-6">
+                        <p class="text-gray-600 text-sm font-medium">Total Revenue</p>
+                        <p class="text-3xl font-bold text-gray-800 mt-2">$124,563</p>
+                        <div class="flex items-center mt-2 text-green-500">+12.5%</div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <p class="text-gray-600 text-sm font-medium">Active Users</p>
+                        <p class="text-3xl font-bold text-gray-800 mt-2">8,429</p>
+                        <div class="flex items-center mt-2 text-red-500">-2.1%</div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <p class="text-gray-600 text-sm font-medium">Orders</p>
+                        <p class="text-3xl font-bold text-gray-800 mt-2">1,234</p>
+                        <div class="flex items-center mt-2 text-green-500">+8.3%</div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <p class="text-gray-600 text-sm font-medium">Conversion Rate</p>
+                        <p class="text-3xl font-bold text-gray-800 mt-2">3.24%</p>
+                        <div class="flex items-center mt-2 text-green-500">+15.2%</div>
+                    </div> -->
+                </div>
+
+                <br>
             </div>
         </div>
-
-        <div id="analysisResults" class="hidden flex-1 flex items-center justify-center bg-gray-100 text-gray-800">
-            <div class="text-center max-w-md p-8 bg-white rounded-lg shadow-xl">
-                <h2 class="text-2xl font-bold mb-4 text-purple-700">ผลลัพธ์การวิเคราะห์ของคุณ</h2>
-                <p id="textresult" class="text-gray-700">ข้อมูลที่วิเคราะห์จะแสดงที่นี่...</p>
-                </div>
-        </div>
-    </div>
-
-    <script type="module" src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script type="module" src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
+
 </html>
