@@ -2,9 +2,12 @@ from tkinter import messagebox
 import pandas as pd
 import glob
 import os
+import sys
 from collections import defaultdict
 import matplotlib.pyplot as plt
 import tempfile
+from config_graph import ColorConfig
+
 
 categories = {
     'English' : [
@@ -92,13 +95,13 @@ class TotalMonth:
                 
         return summary
         
-    def graph_inquiry(self, summary):
-        folder = self.folder_path
-        if not folder or not os.path.isdir(folder):
-            messagebox.showerror("Error", "Please select a valid folder")
-            return
+    def graph_inquiry(self, summary, root):
+        # folder = self.folder_path
+        # if not folder or not os.path.isdir(folder):
+        #     messagebox.showerror("Error", "Please select a valid folder")
+        #     return
 
-        # plot graph Type of Email by month
+        # plot graph Type of Email by month 
 
         # translations สำหรับแปลงชื่อ category เป็นภาษาอังกฤษ
         translations = {
@@ -149,32 +152,47 @@ class TotalMonth:
         categories_list = [item[0] for item in sorted_items]
         counts = [item[1] for item in sorted_items]
 
+
         # วาดกราฟ
+
+        popup = ColorConfig(root, 4)
+        color_dict = popup.get_result()
+        colorX = popup.get_graph_colors(custom_colors=color_dict)
+
         plt.figure(figsize=(10, 5))
-        bars = plt.bar(categories_list, counts, color='mediumseagreen')
+        bars = plt.bar(categories_list, counts, color=colorX['bar_colors'][:len(categories_list)])
 
         # ใส่ตัวเลขบนกราฟ
         for bar in bars:
             height = bar.get_height()
             plt.text(bar.get_x() + bar.get_width()/2, height + 1, str(height),
-                    ha='center', va='bottom', fontsize=10)
+                    ha='center', va='bottom', fontsize=10, color=colorX['bar_text_color'])
 
         plt.ylim(0, max(counts) * 1.2)
-        plt.title("Type of Email by month", fontsize=14)
-        plt.xlabel("ALL language", fontsize=12)
-        plt.ylabel("Total Count", fontsize=12)
-        plt.xticks(rotation=45, ha='right')
+        plt.title("Type of Email by month", fontsize=14, color=colorX['title_color'])
+        plt.xlabel("ALL language", fontsize=12, color=colorX['ylabel_color'])
+        plt.ylabel("Total Count", fontsize=12, color=colorX['xlabel_color'])
+        plt.xticks(rotation=45, ha='right', color=colorX['xtick_color'])
+        plt.yticks(color=colorX['ytick_color'])  # ใส่ตรงนี้
         plt.tight_layout()
 
-        # ✅ เซฟก่อนแสดง
-        temp_path = os.path.join(tempfile.gettempdir(), "plotAll.png")
-        plt.savefig(temp_path)
+        def get_base_path():
+            if getattr(sys, 'frozen', False):
+                # 👉 ตอนถูกแปลงเป็น .exe ด้วย pyinstaller
+                return sys._MEIPASS if hasattr(sys, '_MEIPASS') else os.path.dirname(sys.executable)
+            else:
+                # 👉 ตอนรันแบบ .py ปกติ
+                return os.path.dirname(os.path.abspath(__file__))
 
-        # ✅ แสดงผลก่อนปิด
+        # ใช้ path นี้ในการเซฟ
+        save_path = os.path.join(get_base_path(), "inquiry.png")
+
+        # วาดกราฟและเซฟ
+        plt.savefig(save_path, dpi=300, transparent=True, bbox_inches='tight')
+
         plt.show()
 
         # ✅ ปิดหลังแสดงผล
-        plt.close()
         
     def each_FeedAndPack(self):
         """
